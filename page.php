@@ -21,18 +21,33 @@
       if ($id) { ?>
       <div class="metabox metabox--position-up metabox--with-home-link">
         <p><a class="metabox__blog-home-link" href="<?php echo get_permalink($id); ?>">
-          <i class="fa fa-home" aria-hidden="true"></i> <?php echo get_the_title($id); ?></a> <span class="metabox__main"><?php the_title(); ?></span></p>
+        <i class="fas fa-angle-double-left" aria-hidden="true"></i> Back to <?php echo get_the_title($id); ?></a> <span class="metabox__main"><?php the_title(); ?></span></p>
       </div>
     <?php } ?>
     
-    
-    <!-- <div class="page-links">
-      <h2 class="page-links__title"><a href="#">About Us</a></h2>
+    <?php 
+    $testArr = get_pages(array(
+      'childOf' => get_the_ID()
+    ));
+    if ($id || $testArr) { ?>
+    <div class="page-links">
+      <h2 class="page-links__title"><a href="<?php echo get_permalink($id); ?>"><?php echo get_the_title($id); ?></a></h2>
       <ul class="min-list">
-        <li class="current_page_item"><a href="#">Our History</a></li>
-        <li><a href="#">Our Goals</a></li>
+        <?php 
+          if ($id) {
+            $findChildOf = $id;
+          } else {
+            $findChildOf = get_the_ID();
+          }
+          wp_list_pages(array(
+            'title_li' => null,
+            'child_of' => $findChildOf,
+            'sort_column' => 'menu_order'
+          ));
+        ?>
       </ul>
-    </div> -->
+    </div>
+    <?php }; ?>
 
     <div class="generic-content">
       <?php the_content(); ?>
