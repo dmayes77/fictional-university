@@ -18,7 +18,7 @@
         <?php 
           $today = date('Ymd');
           $homepageEvents = new WP_QUERY(array(
-            'posts_per_page' => -1,
+            'posts_per_page' => 2,
             'post_type' => 'event',
             'meta_key' => 'event_date',
             'orderby' => 'meta_value',
@@ -35,7 +35,7 @@
         
           while ($homepageEvents->have_posts()) {
             $homepageEvents->the_post(); ?>
-            <div class="event-summary">
+            <div id="<?php the_title(); ?>" class="event-summary">
               <a class="event-summary__date t-center" href="<?php the_permalink(); ?>">
                 <span class="event-summary__month"><?php
                   $eventDate = new DateTime(get_field('event_date'));
@@ -79,7 +79,7 @@
         
           while ($homepagePosts->have_posts()) {
             $homepagePosts->the_post(); ?>
-            <div class="event-summary">
+            <div id="<?php the_title(); ?>" class="event-summary">
               <a class="event-summary__date event-summary__date--beige t-center" href="<?php the_permalink(); ?>">
                 <span class="event-summary__month"><?php the_time('M') ?></span>
                 <span class="event-summary__day"><?php the_time('d') ?></span>  
