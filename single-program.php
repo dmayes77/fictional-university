@@ -25,29 +25,58 @@
       <hr>
       <div class="generic-content"><?php the_content(); ?></div>
 
-        <?php 
-          $today = date('Ymd');
-          $homepageEvents = new WP_QUERY(array(
-            'posts_per_page' => 2,
-            'post_type' => 'event',
-            'meta_key' => 'event_date',
-            'orderby' => 'meta_value',
-            'order' => 'ASC',
-            'meta_query' => array(
-              array(
-                'key' => 'event_date',
-                'compare' => '>=',
-                'value' => $today,
-                'type' => 'numeric'
-              ),
-              array(
-                'key' => 'programs',
-                'compare' => 'LIKE',
-                'value' => '"' . get_the_ID() . '"'
-              )
+      <?php 
+
+        $relatedProfessors = new WP_QUERY(array(
+          'posts_per_page' => -1,
+          'post_type' => 'professor',
+          'orderby' => 'title',
+          'order' => 'ASC',
+          'meta_query' => array(
+            array(
+              'key' => 'programs',
+              'compare' => 'LIKE',
+              'value' => '"' . get_the_ID() . '"'
             )
-          ));
-        
+          )
+        ));
+
+        if ($relatedProfessors->have_posts()) {
+          echo '<hr class="section-break">';
+          echo '<h2 class="headline headline--medium">' . get_the_title() . ' Professors</h2>';
+
+          while ($relatedProfessors->have_posts()) {
+            $relatedProfessors->the_post(); ?>
+              <li><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></li>
+          <?php } wp_reset_postdata();
+        }
+
+        $today = date('Ymd');
+        $homepageEvents = new WP_QUERY(array(
+          'posts_per_page' => 2,
+          'post_type' => 'event',
+          'meta_key' => 'event_date',
+          'orderby' => 'meta_value',
+          'order' => 'ASC',
+          'meta_query' => array(
+            array(
+              'key' => 'event_date',
+              'compare' => '>=',
+              'value' => $today,
+              'type' => 'numeric'
+            ),
+            array(
+              'key' => 'programs',
+              'compare' => 'LIKE',
+              'value' => '"' . get_the_ID() . '"'
+            )
+          )
+        ));
+
+        if ($homepageEvents->have_posts()) {
+          echo '<hr class="section-break">';
+          echo '<h2 class="headline headline--medium">Upcoming ' . get_the_title() . ' Events</h2>';
+          
           while ($homepageEvents->have_posts()) {
             $homepageEvents->the_post(); ?>
             <div id="<?php the_title(); ?>" class="event-summary">
@@ -77,7 +106,8 @@
                   <a href="<?php the_permalink(); ?>" class="nu gray">Read more</a></p>
               </div>
             </div>
-        <?php } wp_reset_postdata(); ?>
+          <?php } wp_reset_postdata(); 
+        } ?>
 
     </div>
 
