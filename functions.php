@@ -29,6 +29,7 @@
   <?php }
 
   function university_files() {
+    wp_enqueue_script('GoogleMap', '//maps.googleapis.com/maps/api/js?key=AIzaSyANpNbh_Z8Hq4ssdx1rUVvQ1ihpDC5qlIs', null, microtime(), true );
     wp_enqueue_script('university_main_js', get_theme_file_uri('/js/scripts-bundled.js'), null, microtime(), true );
     wp_enqueue_style('Roboto-Condensed', '//fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700,700i|Roboto:100,300,400,400i,700,700i');
     wp_enqueue_style('font_awesome', '//use.fontawesome.com/releases/v5.3.1/css/all.css');
