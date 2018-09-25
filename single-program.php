@@ -79,36 +79,26 @@
           echo '<h2 class="headline headline--medium">Upcoming ' . get_the_title() . ' Events</h2>';
           
           while ($homepageEvents->have_posts()) {
-            $homepageEvents->the_post(); ?>
-            <div id="<?php the_title(); ?>" class="event-summary">
-              <a class="event-summary__date t-center" href="<?php the_permalink(); ?>">
-                <span class="event-summary__month"><?php
-                  $eventDate = new DateTime(get_field('event_date'));
-                  echo $eventDate->format('M')
-                ?></span>
-                <span class="event-summary__day"><?php
-                  $eventDate = new DateTime(get_field('event_date'));
-                  echo $eventDate->format('d')
-                ?></span>  
-              </a>
-              <div class="event-summary__content">
-                <h5 class="event-summary__title headline headline--tiny">
-                  <a href="<?php the_permalink(); ?>">
-                    <?php the_title(); ?>
-                  </a>
-                </h5>
-                <p><?php
-                    if(has_excerpt()) {
-                      echo get_the_excerpt();
-                    } else {
-                      echo wp_trim_words(get_the_content(), 16);
-                    }
-                  ?><br>
-                  <a href="<?php the_permalink(); ?>" class="nu gray">Read more</a></p>
-              </div>
-            </div>
-          <?php } wp_reset_postdata(); 
-        } ?>
+            $homepageEvents->the_post(); 
+            get_template_part('template-parts/content', 'event');
+          }; 
+        } 
+        
+        wp_reset_postdata();
+        $relatedCampuses = get_field('related_campus');
+        
+        if ($relatedCampuses) {
+          echo '<hr class="section-break">';
+          echo '<h2 class="headline headline--medium">' . get_the_title() . ' is available at these capmuses:</h2>';
+          
+          echo '<ul class="min-list link-list">';
+          foreach ($relatedCampuses as $campus) {
+            ?> <li><a href="<?php echo get_the_permalink($campus); ?>"><?php echo get_the_title($campus); ?></a></li><?php
+          }
+          echo '</ul>';
+        }
+
+        ?>
 
     </div>
 
