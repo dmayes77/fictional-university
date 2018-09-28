@@ -1,5 +1,13 @@
 <?php
 
+  function university_rest() {
+    register_rest_field('post', 'author', array(
+      'get_callback' => function() {return get_the_author();}
+    ));
+  }
+
+  add_action('rest_api_init', 'university_rest');
+
   function pageBanner($args = null) {
     if (!$args['title']) {
       $args['title'] = get_the_title();
@@ -30,11 +38,14 @@
 
   function university_files() {
     wp_enqueue_script('GoogleMap', '//maps.googleapis.com/maps/api/js?key=AIzaSyANpNbh_Z8Hq4ssdx1rUVvQ1ihpDC5qlIs', null, microtime(), true );
-    wp_enqueue_script('university_main_js', get_theme_file_uri('/js/scripts-bundled.js'), null, microtime(), true );
+    wp_enqueue_script('university-main-js', get_theme_file_uri('/js/scripts-bundled.js'), null, microtime(), true );
     wp_enqueue_style('Roboto-Condensed', '//fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700,700i|Roboto:100,300,400,400i,700,700i');
-    wp_enqueue_style('font_awesome', '//use.fontawesome.com/releases/v5.3.1/css/all.css');
+    wp_enqueue_style('font-awesome', '//use.fontawesome.com/releases/v5.3.1/css/all.css');
     wp_enqueue_style('bootstrap', '//stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css');
     wp_enqueue_style('university_main_styles', get_stylesheet_uri(), null, microtime());
+    wp_localize_script('university-main-js', 'universityData', array(
+      'root_url' => get_site_url()
+    ));
   }
 
   add_action('wp_enqueue_scripts', 'university_files');
