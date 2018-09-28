@@ -56,13 +56,22 @@ class Search {
         </div>
         
         <div class="one-third">
+          
           <h2 class="search-overlay__section-title">Programs</h2>
           ${results.programs.length ? '<ul class="link-list min-list">' : `<p>No programs match that query. <a href="${universityData.root_url}/programs"> View all programs</a></p>` }
             ${results.programs.map(data => `<li><a href="${data.permalink}">${data.title}</a></li>`).join('')}
           ${results.programs.length ? '</ul>' : '' }
+          
           <h2 class="search-overlay__section-title">Professors</h2>
-          ${results.professors.length ? '<ul class="link-list min-list">' : `<p>No professors match that query. <a href="${universityData.root_url}/professors"> View all professors</a></p>` }
-            ${results.professors.map(data => `<li><a href="${data.permalink}">${data.title}</a></li>`).join('')}
+          ${results.professors.length ? '<ul class="professor-cards">' : `<p>No professors match that query.</p>` }
+            ${results.professors.map(data => `
+            <li class="professor-card__list-item">
+            <a class="professor-card" href="${data.permalink}">
+                <img class="professor-card__image" src="${data.image}">
+                <span class="professor-card__name">${data.title}</span>
+              </a>
+            </li>
+            `).join('')}
           ${results.professors.length ? '</ul>' : '' }
         </div>
         
@@ -71,7 +80,21 @@ class Search {
           ${results.campuses.length ? '<ul class="link-list min-list">' : `<p>No campuses match that query. <a href="${universityData.root_url}/campuses"> View all campuses</a></p>` }
             ${results.campuses.map(data => `<li><a href="${data.permalink}">${data.title}</a></li>`).join('')}
           ${results.campuses.length ? '</ul>' : '' }
+          
           <h2 class="search-overlay__section-title">Events</h2>
+          ${results.events.length ? '' : `<p>No events match that query. <a href="${universityData.root_url}/events"> View all events</a></p>` }
+            ${results.events.map(data => `
+            <div class="event-summary">
+            <a class="event-summary__date t-center" href="${data.permalink}">
+              <span class="event-summary__month">${data.month}</span>
+              <span class="event-summary__day">${data.day}</span>  
+            </a>
+            <div class="event-summary__content">
+              <h5 class="event-summary__title headline headline--tiny"><a href="${data.permalink}">${data.title}</a></h5>
+              <p>${data.description}<a href="${data.permalink}" class="nu gray">Learn more</a></p>
+            </div>
+          </div>
+            `).join('')}
         </div>
       </div>
       `);
