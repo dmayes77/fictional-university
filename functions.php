@@ -1,5 +1,7 @@
 <?php
 
+  require get_theme_file_path('/includes/search-route.php');
+
   function university_rest() {
     register_rest_field('post', 'author', array(
       'get_callback' => function() {return get_the_author();}
