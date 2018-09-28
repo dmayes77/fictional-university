@@ -15,7 +15,7 @@
           </p>
       </div>
       <hr>
-      <div class="generic-content"><?php the_content(); ?></div>
+      <div class="generic-content"><?php the_field('main_body_content'); ?></div>
 
         <div class="acf-map">
           <?php $mapLocation = get_field('map_location'); ?>
