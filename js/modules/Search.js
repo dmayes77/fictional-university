@@ -108,14 +108,13 @@ class Search {
     this.searchField.val('');
     setTimeout(() => this.searchField.focus(), 400);
     this.isOverlayOpen = true;
-    console.log('open');
+    return false;
   }
   
   closeOverlay() {
     this.searchOverlay.removeClass('search-overlay--active');
     $('body').removeClass('body-no-scroll');
     this.isOverlayOpen = false;
-    console.log('close');
   }
 
   keyPress(e) {
